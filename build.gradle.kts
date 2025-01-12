@@ -5,10 +5,15 @@ plugins {
     id("io.spring.dependency-management") version "1.1.7"
     kotlin("plugin.jpa") version "1.9.25"
     `java-library`
+    `maven-publish`
 }
 
 group = "de.niklaskerkhoff"
 version = "0.0.1-SNAPSHOT"
+
+val mGroup = group as String
+val mArtifact = "standard-spring"
+val mVersion = version as String
 
 java {
     toolchain {
@@ -46,4 +51,16 @@ allOpen {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+
+publishing {
+    publications {
+        create<MavenPublication>("jitpack") {
+            from(components["java"])
+            groupId = "com.github.niklaskerkhoff"
+            artifactId = "standard-spring"
+            version = "1.0.0"
+        }
+    }
 }
