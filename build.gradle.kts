@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "de.niklaskerkhoff"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.3-SNAPSHOT"
 
 val mGroup = group as String
 val mArtifact = "standard-spring"
@@ -53,14 +53,34 @@ tasks.withType<Test> {
     useJUnitPlatform()
 }
 
+tasks {
+    jar {
+        enabled = true // Erstelle eine normale JAR
+    }
+    bootJar {
+        enabled = false // Deaktiviere die Spring Boot Executable JAR
+    }
+}
+
 
 publishing {
     publications {
-        create<MavenPublication>("jitpack") {
+        create<MavenPublication>("github") {
             from(components["java"])
-            groupId = "com.github.niklaskerkhoff"
-            artifactId = "standard-spring"
-            version = "0.0.1"
+            groupId = mGroup
+            artifactId = mArtifact
+            version = mVersion
+        }
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/niklaskerkhoff/standard-spring")
+            credentials {
+                username = System.getenv("GITHUB_ACTOR") ?: ""
+                password = System.getenv("GITHUB_TOKEN") ?: ""
+            }
         }
     }
 }
