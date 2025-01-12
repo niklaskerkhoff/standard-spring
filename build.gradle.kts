@@ -60,7 +60,7 @@ publishing {
             from(components["java"])
             groupId = "com.github.niklaskerkhoff"
             artifactId = "standard-spring"
-            version = "1.0.0"
+            version = "0.0.1"
         }
     }
 }
